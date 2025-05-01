@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code...'
+                git https://github.com/Fazil7002/School.git
+                checkout scm
+            }
+        }
+
+        stage('Install Python (optional)') {
+            steps {
+                echo 'Ensuring Python is installed...'
+                // This step assumes Python is already available; you can modify if using virtualenv or specific versions
+                sh 'python3 --version'
+            }
+        }
+
+        stage('Run Python Script') {
+            steps {
+                echo 'Running student info script...'
+                // Run the Python file (assumed to be named student_info.py)
+                sh 'python3 student_info.py'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+    }
+}
